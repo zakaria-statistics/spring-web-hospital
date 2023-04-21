@@ -23,17 +23,17 @@ public class SpringHospitalApplication {
             patientRepository.save(new Patient().builder().id(null).name("Beesly").birthday(new Date()).isSick(false).score(345).build());
             patientRepository.save(new Patient().builder().id(null).name("Halpert").birthday(new Date()).isSick(false).score(345).build());*/
             //patientRepository.save(new Patient(null, "Scott", new Date(), false, 345));
-            /*Stream.of("Scott", "Beesly", "Halpert")
+            Stream.of("Scott", "Beesly", "Halpert")
                     .forEach(name->{
                         Patient patient= Patient.builder()
                                 .name(name)
                                 .birthday(new Date())
-                                .isSick(false)
-                                .score((int) (Math.random()*100))
+                                .sick(false)
+                                .score((int) (100+Math.random()*100))
                                 .build();
                         patientRepository.save(patient);
 
-                    });*/
+                    });
 
         };
     }
