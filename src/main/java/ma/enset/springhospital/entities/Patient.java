@@ -19,7 +19,6 @@ public class Patient {
     @NotEmpty
     @Size(min = 3, max = 40)
     private String name;
-    @DateTimeFormat(pattern = "yyyy-mm-dd")
     @Temporal(TemporalType.DATE)
     private Date birthday;
     private boolean sick;
