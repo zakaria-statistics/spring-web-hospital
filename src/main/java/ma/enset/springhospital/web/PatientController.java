@@ -31,7 +31,7 @@ public class PatientController {
         model.addAttribute("keyword", kw);
         return "patients";
     }
-    @GetMapping("/delete")
+    @GetMapping("/admin/delete")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String delete(@RequestParam(name="id") Long id,
                          @RequestParam(name="keyword", defaultValue = "") String keyword,
@@ -49,7 +49,7 @@ public class PatientController {
         model.addAttribute("patient", new Patient());
         return "formPatients";
     }
-    @PostMapping(path = "/admin/save")//c'est mieux de faire save pour edit et save pour ajouter
+    @PostMapping(path = "/admin/save")//c'est mieux de faire saveMethod pour edit et autre saveMethod pour ajouter
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String save(Model model, @Valid Patient patient, BindingResult bindingResult,
                        @RequestParam(defaultValue = "0") int page,

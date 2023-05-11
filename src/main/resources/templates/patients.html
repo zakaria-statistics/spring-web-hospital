@@ -37,7 +37,7 @@
                         <td th:text="${p.score}"></td>
                         <td th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
                             <a onclick="javascript:return confirm('Are sure?') "
-                               th:href="@{/delete(id=${p.id}, keyword=${keyword}, page=${currentPage})}" class="btn btn-danger">
+                               th:href="@{/admin/delete(id=${p.id}, keyword=${keyword}, page=${currentPage})}" class="btn btn-danger">
                                 <i class="bi bi-trash"></i>
                             </a>
                         </td>
