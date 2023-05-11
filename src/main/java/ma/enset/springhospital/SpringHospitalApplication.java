@@ -2,6 +2,10 @@ package ma.enset.springhospital;
 
 import ma.enset.springhospital.entities.Patient;
 import ma.enset.springhospital.repository.PatientRepository;
+import ma.enset.springhospital.security.entities.AppRole;
+import ma.enset.springhospital.security.entities.AppUser;
+import ma.enset.springhospital.security.repo.AppRoleRepository;
+import ma.enset.springhospital.security.repo.AppUserRepository;
 import ma.enset.springhospital.security.service.AccountService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -45,7 +49,7 @@ public class SpringHospitalApplication {
         };
     }
 
-    @Bean
+    //@Bean
     CommandLineRunner commandLineRunner(JdbcUserDetailsManager jdbcUserDetailsManager) {
         PasswordEncoder passwordEncoder;
         return args -> {
@@ -67,14 +71,28 @@ public class SpringHospitalApplication {
         };
     }
     @Bean
-    CommandLineRunner commandLineRunnerUserDetails(AccountService accountService){
-        return args -> {
-          accountService.addNewRole("USER");
-          accountService.addNewRole("ADMIN");
+    CommandLineRunner commandLineRunnerUserDetails(AccountService accountService, AppUserRepository appUserRepository, AppRoleRepository appRoleRepository){
 
-          accountService.addNewUser("user1", "1234", "user1@gmail.com", "1234");
-          accountService.addNewUser("user2", "1234", "user2@gmail.com", "1234");
-          accountService.addNewUser("admin", "1234", "admin@gmail.com", "1234");
+        return args -> {
+
+            AppRole appRoleUser=appRoleRepository.findById("USER").get();
+            if (appRoleUser==null)
+                accountService.addNewRole("USER");
+            AppRole appRoleAdmin=appRoleRepository.findById("ADMIN").get();
+            if (appRoleAdmin==null)
+                accountService.addNewRole("ADMIN");
+
+            AppUser appUser1=appUserRepository.findByUsername("user1");
+            if (appUser1==null)
+                accountService.addNewUser("user1", "1234", "user1@gmail.com", "1234");
+
+            AppUser appUser2=appUserRepository.findByUsername("user2");
+            if (appUser2==null)
+                accountService.addNewUser("user2", "1234", "user2@gmail.com", "1234");
+
+            AppUser appUserAdmin=appUserRepository.findByUsername("admin");
+            if (appUserAdmin==null)
+                accountService.addNewUser("admin", "1234", "admin@gmail.com", "1234");
 
           accountService.addRoleToUser("user1", "USER");
           accountService.addRoleToUser("user2", "USER");

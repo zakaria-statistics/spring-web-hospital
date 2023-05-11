@@ -1,6 +1,7 @@
 package ma.enset.springhospital.security;
 
 import lombok.AllArgsConstructor;
+import ma.enset.springhospital.security.service.UserDetailsServiceImp;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -20,9 +21,10 @@ import javax.sql.DataSource;
 @EnableMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
     PasswordEncoder passwordEncoder;
+    UserDetailsServiceImp userDetailsServiceImp;
 
 
-    @Bean
+    //@Bean
     public JdbcUserDetailsManager jdbcUserDetailsManager(DataSource dataSource) {
         return new JdbcUserDetailsManager(dataSource);
     }
@@ -44,6 +46,7 @@ public class SecurityConfig {
         //httpSecurity.authorizeHttpRequests().requestMatchers("/user/**").hasRole("USER");
         httpSecurity.authorizeHttpRequests().anyRequest().authenticated();
         httpSecurity.exceptionHandling().accessDeniedPage("/notAuthorized");
+        httpSecurity.userDetailsService(userDetailsServiceImp);
         return httpSecurity.build();
     }
 }
